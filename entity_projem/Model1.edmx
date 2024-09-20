@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EntityFrameworkStajProjemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="kitaplar">
+          <Key>
+            <PropertyRef Name="kitap_id" />
+          </Key>
+          <Property Name="kitap_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="baslık" Type="varchar" MaxLength="30" />
+          <Property Name="yazar" Type="varchar" MaxLength="30" />
+          <Property Name="yayınlanma_yılı" Type="int" />
+          <Property Name="tur" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="ödünç alma">
+          <Key>
+            <PropertyRef Name="ödünç_id" />
+          </Key>
+          <Property Name="ödünç_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uye_id" Type="int" Nullable="false" />
+          <Property Name="kitap_id" Type="int" Nullable="false" />
+          <Property Name="ödünç_tarihi" Type="date" Nullable="false" />
+          <Property Name="geriGetirme_tarihi" Type="date" Nullable="false" />
+          <Property Name="getirilen_tarih" Type="date" />
+        </EntityType>
+        <EntityType Name="üyeler">
+          <Key>
+            <PropertyRef Name="uye_id" />
+          </Key>
+          <Property Name="uye_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ilk_ad" Type="varchar" MaxLength="30" />
+          <Property Name="son_ad" Type="varchar" MaxLength="30" />
+          <Property Name="email" Type="varchar" MaxLength="30" />
+          <Property Name="numara" Type="varchar" MaxLength="30" />
+          <Property Name="uyelik_tarihi" Type="date" />
+        </EntityType>
+        <Association Name="FK__ödünç_alm__kitap__3D5E1FD2">
+          <End Role="kitaplar" Type="Self.kitaplar" Multiplicity="1" />
+          <End Role="ödünç alma" Type="Self.ödünç alma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kitaplar">
+              <PropertyRef Name="kitap_id" />
+            </Principal>
+            <Dependent Role="ödünç alma">
+              <PropertyRef Name="kitap_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ödünç_alm__uye_i__3C69FB99">
+          <End Role="üyeler" Type="Self.üyeler" Multiplicity="1" />
+          <End Role="ödünç alma" Type="Self.ödünç alma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="üyeler">
+              <PropertyRef Name="uye_id" />
+            </Principal>
+            <Dependent Role="ödünç alma">
+              <PropertyRef Name="uye_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EntityFrameworkStajProjemModelStoreContainer">
+          <EntitySet Name="kitaplar" EntityType="Self.kitaplar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ödünç alma" EntityType="Self.ödünç alma" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="üyeler" EntityType="Self.üyeler" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__ödünç_alm__kitap__3D5E1FD2" Association="Self.FK__ödünç_alm__kitap__3D5E1FD2">
+            <End Role="kitaplar" EntitySet="kitaplar" />
+            <End Role="ödünç alma" EntitySet="ödünç alma" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ödünç_alm__uye_i__3C69FB99" Association="Self.FK__ödünç_alm__uye_i__3C69FB99">
+            <End Role="üyeler" EntitySet="üyeler" />
+            <End Role="ödünç alma" EntitySet="ödünç alma" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EntityFrameworkStajProjemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="kitaplar">
+          <Key>
+            <PropertyRef Name="kitap_id" />
+          </Key>
+          <Property Name="kitap_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="baslık" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="yazar" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="yayınlanma_yılı" Type="Int32" />
+          <Property Name="tur" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ödünç_alma" Relationship="Self.FK__ödünç_alm__kitap__3D5E1FD2" FromRole="kitaplar" ToRole="ödünç_alma" />
+        </EntityType>
+        <EntityType Name="ödünç_alma">
+          <Key>
+            <PropertyRef Name="ödünç_id" />
+          </Key>
+          <Property Name="ödünç_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uye_id" Type="Int32" Nullable="false" />
+          <Property Name="kitap_id" Type="Int32" Nullable="false" />
+          <Property Name="ödünç_tarihi" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="geriGetirme_tarihi" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="getirilen_tarih" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="kitaplar" Relationship="Self.FK__ödünç_alm__kitap__3D5E1FD2" FromRole="ödünç_alma" ToRole="kitaplar" />
+          <NavigationProperty Name="üyeler" Relationship="Self.FK__ödünç_alm__uye_i__3C69FB99" FromRole="ödünç_alma" ToRole="üyeler" />
+        </EntityType>
+        <EntityType Name="üyeler">
+          <Key>
+            <PropertyRef Name="uye_id" />
+          </Key>
+          <Property Name="uye_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ilk_ad" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="son_ad" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="numara" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="uyelik_tarihi" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="ödünç_alma" Relationship="Self.FK__ödünç_alm__uye_i__3C69FB99" FromRole="üyeler" ToRole="ödünç_alma" />
+        </EntityType>
+        <Association Name="FK__ödünç_alm__kitap__3D5E1FD2">
+          <End Role="kitaplar" Type="Self.kitaplar" Multiplicity="1" />
+          <End Role="ödünç_alma" Type="Self.ödünç_alma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kitaplar">
+              <PropertyRef Name="kitap_id" />
+            </Principal>
+            <Dependent Role="ödünç_alma">
+              <PropertyRef Name="kitap_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ödünç_alm__uye_i__3C69FB99">
+          <End Role="üyeler" Type="Self.üyeler" Multiplicity="1" />
+          <End Role="ödünç_alma" Type="Self.ödünç_alma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="üyeler">
+              <PropertyRef Name="uye_id" />
+            </Principal>
+            <Dependent Role="ödünç_alma">
+              <PropertyRef Name="uye_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EntityFrameworkStajProjemEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="kitaplar" EntityType="Self.kitaplar" />
+          <EntitySet Name="ödünç_alma" EntityType="Self.ödünç_alma" />
+          <EntitySet Name="üyeler" EntityType="Self.üyeler" />
+          <AssociationSet Name="FK__ödünç_alm__kitap__3D5E1FD2" Association="Self.FK__ödünç_alm__kitap__3D5E1FD2">
+            <End Role="kitaplar" EntitySet="kitaplar" />
+            <End Role="ödünç_alma" EntitySet="ödünç_alma" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ödünç_alm__uye_i__3C69FB99" Association="Self.FK__ödünç_alm__uye_i__3C69FB99">
+            <End Role="üyeler" EntitySet="üyeler" />
+            <End Role="ödünç_alma" EntitySet="ödünç_alma" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EntityFrameworkStajProjemModelStoreContainer" CdmEntityContainer="EntityFrameworkStajProjemEntities2">
+          <EntitySetMapping Name="kitaplar">
+            <EntityTypeMapping TypeName="EntityFrameworkStajProjemModel.kitaplar">
+              <MappingFragment StoreEntitySet="kitaplar">
+                <ScalarProperty Name="kitap_id" ColumnName="kitap_id" />
+                <ScalarProperty Name="baslık" ColumnName="baslık" />
+                <ScalarProperty Name="yazar" ColumnName="yazar" />
+                <ScalarProperty Name="yayınlanma_yılı" ColumnName="yayınlanma_yılı" />
+                <ScalarProperty Name="tur" ColumnName="tur" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ödünç_alma">
+            <EntityTypeMapping TypeName="EntityFrameworkStajProjemModel.ödünç_alma">
+              <MappingFragment StoreEntitySet="ödünç alma">
+                <ScalarProperty Name="ödünç_id" ColumnName="ödünç_id" />
+                <ScalarProperty Name="uye_id" ColumnName="uye_id" />
+                <ScalarProperty Name="kitap_id" ColumnName="kitap_id" />
+                <ScalarProperty Name="ödünç_tarihi" ColumnName="ödünç_tarihi" />
+                <ScalarProperty Name="geriGetirme_tarihi" ColumnName="geriGetirme_tarihi" />
+                <ScalarProperty Name="getirilen_tarih" ColumnName="getirilen_tarih" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="üyeler">
+            <EntityTypeMapping TypeName="EntityFrameworkStajProjemModel.üyeler">
+              <MappingFragment StoreEntitySet="üyeler">
+                <ScalarProperty Name="uye_id" ColumnName="uye_id" />
+                <ScalarProperty Name="ilk_ad" ColumnName="ilk_ad" />
+                <ScalarProperty Name="son_ad" ColumnName="son_ad" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="numara" ColumnName="numara" />
+                <ScalarProperty Name="uyelik_tarihi" ColumnName="uyelik_tarihi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
